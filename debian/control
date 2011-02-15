@@ -1,0 +1,14 @@
+Source: vscan
+Section: utils
+Priority: extra
+Maintainer: Michael Stone <mistone@akamai.com>
+Build-Depends: cdbs, debhelper (>= 7), pandoc, libre2-dev, libarchive-dev, liblua5.1-0-dev, zlib1g-dev, libsqlite3-dev
+Standards-Version: 3.9.1
+
+Package: vscan
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Recommends: python, lynx
+Description: a text scanning suite
+ vscan is a toolkit for making fast but crude measurements of the prevalence of
+ named textual features in algorithmically selected samples of large corpora.
