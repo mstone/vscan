@@ -1,0 +1,75 @@
+% Installation Instructions for vscan
+% Michael Stone <mistone@akamai.com>
+% February 1, 2011
+
+## Overview
+
+To build `vscan` on recent versions of Linux and Mac OS X, run the following
+commands after installing `vscan`'s dependencies (as listed in the next
+section):
+
+    ./configure
+    make
+    make check
+    sudo make install
+
+By default, `vscan` will install into `/usr/bin`, `/usr/share/man`, and
+`/usr/share/vscan`.
+
+## Dependencies
+
+`vscan` depends on several tools and libraries, mentioned below. Suggested
+versions of these tools and libraries are mentioned in parentheses. Now:
+
+`vscan` is intended to be built with:
+
+  * GNU gcc (4.4.5),
+  * GNU make (3.81), and
+  * pandoc (1.5.1.1)
+
+`vscan` links against the following libraries:
+
+  * lua (5.1),
+  * libarchive (2.8.4),
+  * zlib (1.2.5),
+  * re2 (0+hg40+dfsg-2), and
+  * sqlite3 (3.7.4)
+
+Finally, `vscan-view` depends on
+
+  * python (2.6) and
+  * lynx (2.8.8)
+
+for CLI HTML rendering.
+
+## Configuration
+
+vscan needs two pieces of information to be built: namely, destination
+directories and build flags.
+
+Information about destination directories is collected by running
+`./configure`. `./configure` merges default values, environment variables, and
+command-line overrides and writes its results to `config.mk`.
+
+Information about build flags is stored in hand-written `config.$PLATFORM.mk`
+files like `config.Linux.mk` or `config.Darwin.mk`. Each platform config file
+specifies options like
+
+    libc_CPPFLAGS := -DHAVE_FDOPENDIR -DHAVE_OPENAT -DHAVE_FSTATAT -DHAVE_LSEEK64
+    
+    libarchive_LDFLAGS := -larchive
+    
+    libz_LDFLAGS := -lz
+    
+    libre2_LDFLAGS := -lre2 -lpthread
+    
+    libsqlite3_LDFLAGS := -lsqlite3 -lpthread
+    
+    liblua_CPPFLAGS := -I/usr/include/lua5.1
+    liblua_LDFLAGS := -llua5.1 -lm -Wl,-E -ldl
+
+These definitions are used in the "codegen" section of the main `Makefile` to
+accumulate all the necessary `CPPFLAGS`, `CFLAGS`, `CXXFLAGS`, and `LDFLAGS`
+for each target object and binary. The choice of which flags to accmulate is
+made based on per-object and per-binary dependencies listed earlier in the
+"objects" and "deps" sections of the main `Makefile`.

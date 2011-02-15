@@ -1,0 +1,79 @@
+% VSCAN-CONFIG(5) vscan User Manuals
+% Michael Stone <mistone@akamai.com>
+% February 1, 2011
+
+<!-- Copyright (c) 2011 Akamai Technologies, Inc. -->
+
+# NAME
+
+vscan-config - the configuration file format used by *vscan*.
+
+# DESCRIPTION
+
+Several *vscan* commands read configuration data from a file named
+
+    ./config.lua
+
+This file is written in the [*Lua* language].
+
+In several places, the configuration format calls for strings describing regular expressions.
+
+These strings should use the *Google RE2* regular expression [syntax][RE2
+syntax].
+
+[*Lua* language]: http://www.lua.org
+[RE2 syntax]: http://code.google.com/p/re2/wiki/Syntax
+
+# OPTIONS
+
+## mode :: string?
+
+*"search"* (default)
+:    applies configured `sensors` to input samples
+
+*"collect"*
+:    appends input samples to a compressed tarball for offline analysis
+
+ex: `mode = "search"`
+
+## filenames :: string?
+
+*nil* (default)
+:    all filenames should be scanned 
+
+*"..."*
+:    only paths whose final component matches the specified regular expression
+     should be scanned
+
+ex: `filenames = "^.*(?i:htm|html|[aj]sp[a-z]?|js|php|xml)$"`
+
+## last_modified :: string?
+
+*nil* (default)
+:    all files should be scanned, regardless of their mtime
+
+*"YYYYmmdd"*
+:    only files whose mtime is newer than the specified date should be scanned.
+
+ex: `last_modified = "20100101" -- January 1, 2010`
+
+## sensors :: Table<String, String>
+
+*{ ... }*  (required)
+:   a table mapping sensor name strings to RE2 regex pattern strings.
+
+ex: `sensors = { ["old_hash"] = "(?ims:md[245])" }`
+
+# SAMPLE
+
+See `/usr/share/vscan/config.lua` for a full-blown example configuration file.
+
+# SEE ALSO
+
+`vscan`(1),
+`vscan-scan-dir`(1),
+`vscan-scan-tarball`(1).
+
+# VSCAN
+
+Part of the `vscan`(1) suite.

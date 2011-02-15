@@ -1,0 +1,59 @@
+#!/usr/bin/env python
+# Copyright (c) 2011 Akamai Technologies, Inc.
+
+import sys
+from string import Template
+from subprocess import Popen, PIPE
+from os.path import dirname, join
+
+t = Template("""
+<html>
+<head>
+<style type="text/css">
+.hit {background-color: red; font-weight: normal;}
+</style>
+</head>
+<body>
+<p>
+Report For Path<br/>
+.......................
+</p>
+<p>${path}</p>
+<p>
+Features:<br/>
+.......................
+</p>
+<p>
+${features}
+<p/>
+Highlighted Contents<br/>
+.......................
+</p>
+<p>
+${content}
+</p>
+</body>
+</html>
+""")
+
+qpath = sys.argv[1]
+highlighter = join(dirname(sys.argv[0]), "vscan-highlight")
+features = []
+content = ""
+
+out = Popen([highlighter, qpath], stdout=PIPE).communicate()[0]
+
+for line in out.split("\n"):
+  if len(line) > 0:
+    if line[0] == 'P':
+      features = line.split()[2:]
+    elif line[0] == 'H':
+      content = line.split(' ', 2)[2]
+
+html = t.safe_substitute({
+  "path": qpath, 
+  "features": "<br/>".join(features) + "<br/>", 
+  "content": content,
+})
+
+Popen(["lynx", "-stdin"], stdin=PIPE).communicate(html)

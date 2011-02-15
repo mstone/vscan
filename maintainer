@@ -1,0 +1,61 @@
+#!/usr/bin/make -f
+SHELL = /bin/bash
+GITDIR = ./.git
+
+help:
+	@echo "Subcommands: bump sync commit tag tarball sign"
+
+PKGNAME = $(shell cat config/PKGNAME)
+VERSION = $(shell cat config/VERSION)
+RELEASE = $(shell cat config/RELEASE)
+
+NV    = $(PKGNAME)-$(VERSION)
+NVR   = $(PKGNAME)-$(VERSION)-$(RELEASE)
+TARBALL    = $(NV).tar.xz
+
+# Construction Rules
+
+bump:
+	config/bump_version config/VERSION
+	echo 0 > config/RELEASE
+
+sync:
+	@echo No syncing necessary.
+
+commit:
+	git commit --allow-empty -a -m "$(NV)."
+
+$(GITDIR)/refs/tags/%:
+	git tag -s -f -m "$*" "$*"
+
+tag: $(GITDIR)/refs/tags/$(NV)
+
+$(TARBALL): $(GITDIR)/refs/tags/$(NV)
+	git archive --format=tar --prefix=$(NV)/ $(NV) | xz > $(TARBALL)
+
+tarball: $(TARBALL)
+
+$(PKGNAME)_$(VERSION).orig.tar.gz: $(TARBALL)
+	xzcat $^ | gzip -c > $@
+
+$(TARBALL).asc: $(TARBALL)
+	gpg -ab $<
+
+sign: $(TARBALL).asc
+
+# Debian Rules
+
+debbump: 
+	config/bump_version config/RELEASE
+
+debcommit:
+	git-dch -R -N $(VERSION)-$(RELEASE)
+	git commit --allow-empty -a -m "Debian $(NVR)"
+
+debtag: $(GITDIR)/refs/tags/debian/$(NVR)
+
+# Snapshot and Release Rules
+
+.PHONY: bump commit tarball sign debbump debcommit debtag
+
+# vim: set noet ts=8 sw=8 :

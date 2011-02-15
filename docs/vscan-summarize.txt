@@ -1,0 +1,68 @@
+% VSCAN-SUMMARIZE(1) vscan User Manuals
+% Michael Stone <mistone@akamai.com>
+% February 1, 2011
+
+<!-- Copyright (c) 2011 Akamai Technologies, Inc. -->
+
+# NAME
+
+vscan-summarize - aggregate several scan logs into a database
+
+# SYNOPSIS
+
+*vscan* *summarize* PATH [PATH...]
+
+# OPTIONS
+
+None.
+
+# DESCRIPTION
+
+`vscan-summarize` aggregates data from a vscan `config.lua` file along with
+results from previously performed scans into an SQLite3 database located at
+`./summary.db`.
+
+Presently, the database schema consists of four tables, named `feats`, `paths`,
+`samples`, and `hits`.
+
+    CREATE TABLE feats (name TEXT PRIMARY KEY, regex TEXT);
+
+    CREATE TABLE hits (cp INTEGER, pathid INTEGER,
+                       featid INTEGER, sampleid INTEGER,
+                       PRIMARY KEY (pathid, featid, sampleid));
+
+    CREATE TABLE paths (path TEXT PRIMARY KEY);
+
+    CREATE TABLE samples (sample TEXT PRIMARY KEY);
+
+Columns named "`*id`" are foreign keys referencing the implicit "`ROWID`"
+column of the foreign table mentioned in the column name.
+
+The database also contains three indices:
+
+    CREATE INDEX idx_hits_cp ON hits (cp);
+    CREATE INDEX idx_hits_featid ON hits (featid);
+    CREATE INDEX idx_hits_pathid ON hits (pathid);
+
+which are used by the queries made by *vscan-report*.
+
+# EXAMPLES
+
+Perform a scan and summarize its results:
+
+    ...
+    vscan-scan-dir /usr > ./result
+    vscan-summarize ./result
+    echo ".dump" | sqlite3 ./summary.db
+
+Continue with *vscan-report* or additional analysis with new signatures.
+
+# SEE ALSO
+
+`vscan`(1),
+`vscan-config`(1),
+`vscan-report`(1).
+
+# VSCAN
+
+Part of the `vscan`(1) suite.

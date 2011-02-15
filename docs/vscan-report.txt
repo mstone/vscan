@@ -1,0 +1,54 @@
+% VSCAN-REPORT(1) vscan User Manuals
+% Michael Stone <mistone@akamai.com>
+% February 1, 2011
+
+<!-- Copyright (c) 2011 Akamai Technologies, Inc. -->
+
+# NAME
+
+vscan-report - tabulate a vscan summary database
+
+# SYNOPSIS
+
+*vscan-report*
+
+# OPTIONS
+
+None.
+
+# DESCRIPTION
+
+`vscan-report` outputs a table describing the contents of the `./summary.db`
+database.
+
+The table has one column for gross sensor hits and one column for each content
+provider code for which results are recorded.
+
+The table has one row for each sensor for which hits were detected.
+
+Each cell in the table records the number of times that the sensor named in the
+row label fired on content named by the column label.
+
+# EXAMPLES
+
+Perform a scan and summarize its results:
+
+    ...
+    vscan-scan-dir /usr > ./result
+    vscan-summarize ./result
+    vscan-report
+
+# ENVIRONMENT VARIABLES
+
+None.
+
+# SEE ALSO
+
+`vscan`(1),
+`vscan-config`(1),
+`vscan-summarize`(1),
+`vscan-view`(1).
+
+# VSCAN
+
+Part of the `vscan`(1) suite.

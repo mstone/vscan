@@ -1,0 +1,18 @@
+% Hacking vscan
+% Michael Stone <mistone@akamai.com>
+% December 10, 2009
+
+# Previewing Documentation
+
+The following `viewman` script is particularly useful for previewing
+documentation:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ { .bash }
+#!/bin/sh
+pandoc -s -S -r markdown -w man < $1 | groff -t -e -Tascii -m mandoc - | pager -s
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+<!-- 
+vim: set ft=pdc 
+-->

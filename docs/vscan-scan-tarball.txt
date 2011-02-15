@@ -1,0 +1,67 @@
+% VSCAN-SCAN-TARBALL(1) vscan User Manuals
+% Michael Stone <mistone@akamai.com>
+% February 1, 2011
+
+<!-- Copyright (c) 2011 Akamai Technologies, Inc. -->
+
+# NAME
+
+vscan-scan-tarball - scan a tarball with sensors from config.lua
+
+# SYNOPSIS
+
+*vscan-scan-tarball* PATH [PATH...]
+
+# OPTIONS
+
+None.
+
+# DESCRIPTION
+
+`vscan-scan-tarball` uses the filter information, sensors, and scan mode defined
+in `./config.lua` to scan the tarballs named as its arguments. It is the
+offline counterpart to *vscan-scan-dir*.
+
+Unlike *vscan-scan-dir*, `vscan-scan-tarball` only supports `search` mode
+scanning. In `search` mode, *vscan-scan-tarball* writes its results to stdout.
+Each result consists of a line starting with a typecode followed by one or more
+space-delimited fields. The possible lines are:
+
+ `F <qpath> <feature> <capture>?`
+:    Features
+
+ `P <qpath> <feature>+`
+:    Path summaries
+
+ `C <qpath> <num dirs> <num files> <num interesting>`
+:    Count statistics
+
+ `E <freeform text>`
+:    Errors
+
+Fields with label `qpath` and `captures` are percent-encoded.
+
+# EXAMPLES
+
+Scan a tarball for instances of header files which mention old hashes.
+
+    cat > config.lua <<EOF
+    sensors = { ["old_hash"] = "(?ims:md[245])" }
+    EOF
+    vscan-scan-tarball /tmp/examples.tar.gz > results
+    vscan-summarize results
+    vscan-report
+
+Continue with *vscan-summarize* followed by *vscan-report*.
+
+# SEE ALSO
+
+`vscan`(1),
+`vscan-scan-dir`(1),
+`vscan-summarize`(1),
+`vscan-report`(1),
+`vscan-view`(1).
+
+# VSCAN
+
+Part of the `vscan`(1) suite.
