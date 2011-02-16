@@ -10,7 +10,7 @@ Typical applications include
   a) hunting for JavaScript malware in FTP-accessible file systems
 
   b) hunting for call-sites of deprecated cryptographic primitives in large
-     collections of of source code
+     collections of source code
 
 To install `vscan`, please follow the instructions in the `INSTALL` file
 located alongside this `README` or check to see whether `vscan` is available
