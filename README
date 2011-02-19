@@ -5,19 +5,26 @@
 `vscan` is a toolkit for making fast but crude measurements of the prevalence
 of named textual features in algorithmically selected samples of large corpora.
 
-Typical applications include
+It's useful in the same places as `find` and `grep` but it's designed to yield
+more useful reports, e.g., by letting you name the patterns that you're
+searching for and by storing the resulting matches in a SQLite database for
+later correlation with upload or modification logs.
 
-  a) hunting for JavaScript malware in FTP-accessible file systems
+So far, we've used it, with some success, for
+
+  a) hunting for JavaScript malware in FTP-accessible file systems and for
 
   b) hunting for call-sites of deprecated cryptographic primitives in large
-     collections of source code
+     collections of source code.
 
 To install `vscan`, please follow the instructions in the `INSTALL` file
 located alongside this `README` or check to see whether `vscan` is available
 through your favorite package manager.
 
 For information on how to use `vscan`, please see the overview and command-
-specific documentation in the `docs/` subdirectory of the source code.
+specific documentation in the `docs/` subdirectory of the source code. (Also,
+take a look at the `config.lua` file alongisde this `README` -- it's got some
+fun examples of nasty JavaScript patterns!)
 
 Finally, please write if you have trouble getting `vscan` to work or if you've
 done cool things with `vscan` that we might want to merge -- we'd love to hear
