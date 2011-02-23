@@ -1,4 +1,6 @@
 import sys, tarfile
+import cgitb
+cgitb.enable(format="plain")
 
 # Check that sys.argv is like
 #  ['./test.py', 'C', '/usr', '1234', '5678', '91011']
