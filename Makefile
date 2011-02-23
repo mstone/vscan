@@ -119,8 +119,9 @@ t/b64_test.o_DEPS = libc libre2
 t/config_test.o_DEPS = libc libre2
 t/test.o_DEPS = libc libre2
 
-t/md5.t.ok: vscan-scan-dir
-t/collect.t.ok: vscan-scan-dir
+t/md5.t.ok: vscan-scan-dir t/md5.t.py t/md5.t.lua
+t/collect.t.ok: vscan-scan-dir t/collect.t.py t/collect.t.lua
+t/local.t.ok: vscan-scan-dir t/local.t.py t/local.t.lua
 t/view.t.ok: vscan-view
 
 vscan-view: vscan-highlight
