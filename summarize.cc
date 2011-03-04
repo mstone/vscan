@@ -68,7 +68,10 @@ int main(int argc, char** argv)
 		"unable to prepare_v2 stmt_s_count", err_db);
 
 
-	for (const_sensors_iterator sens = config.sensors.begin(); sens != config.sensors.end(); ++sens)
+	const_sensors_iterator sens, sens_end;
+	for (sens = config.sensors.begin(), sens_end = config.sensors.end();
+		sens != sens_end;
+		++sens)
 	{
 		sens_model.set_name(sens->name);
 		sens_model.set_pat(sens->pat->pattern());

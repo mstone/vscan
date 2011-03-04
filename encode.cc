@@ -44,7 +44,9 @@ uri_encode::uri_encode(const StringPiece& sp) : encode(sp) {}
 
 ostream& operator <<(ostream& os, const uri_encode& b)
 {
-	for (StringPiece::const_iterator it = b.sp.begin(); it != b.sp.end(); ++it)
+	for (StringPiece::const_iterator it = b.sp.begin(), ie = b.sp.end();
+		it != ie;
+		++it)
 	{
 		char c = *it;
 		if ((c <= 'z' && c >= 'a') ||
@@ -96,7 +98,9 @@ html_encode::html_encode(const StringPiece& sp) : encode(sp) {}
 
 ostream& operator <<(ostream& os, const html_encode& b)
 {
-	for (StringPiece::const_iterator it = b.sp.begin(); it != b.sp.end(); ++it)
+	for (StringPiece::const_iterator it = b.sp.begin(), ie = b.sp.end();
+		it != ie;
+		++it)
 	{
 		char c = *it;
 		if (c == '<' || c == '&' || c == '=' || c == '"' || \
@@ -112,7 +116,9 @@ highlight_encode::highlight_encode(const StringPiece& sp) : encode(sp) {}
 
 ostream& operator <<(ostream& os, const highlight_encode& b)
 {
-	for (StringPiece::const_iterator it = b.sp.begin(); it != b.sp.end(); ++it)
+	for (StringPiece::const_iterator it = b.sp.begin();
+		it != b.sp.end();
+		++it)
 	{
 		char c = *it;
 		if ( c == '`' || c == '~' )

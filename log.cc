@@ -27,8 +27,8 @@ void write_p_line(const list<struct sensor>* sensors,
 	const StringPiece& qpath)
 {
 	map<string, size_t> matches = map<string, size_t> ();
-	for (const_sensors_iterator sens = sensors->begin();
-		sens != sensors->end();
+	for (const_sensors_iterator sens = sensors->begin(), sens_end = sensors->end();
+		sens != sens_end;
 		++sens)
 	{
 		if (sens->count > 0)
@@ -36,8 +36,8 @@ void write_p_line(const list<struct sensor>* sensors,
 	}
 
 	*out << "P " << qpath;
-	for (map<string, size_t>::const_iterator it = matches.begin();
-		it != matches.end();
+	for (map<string, size_t>::const_iterator it = matches.begin(), ie = matches.end();
+		it != ie;
 		++it)
 		*out << " " << it->first; // << " " << it->second;
 	*out << "\n";

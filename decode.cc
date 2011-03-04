@@ -17,7 +17,9 @@ static char decode_hex_char(char c)
 
 int uri_decode(const StringPiece& sp, ostream& os)
 {
-	for (StringPiece::const_iterator it = sp.begin(); it != sp.end(); ++it)
+	for (StringPiece::const_iterator it = sp.begin(), ie = sp.end();
+		it != ie;
+		++it)
 	{
 		if (!os.good())
 			return EIO;
@@ -130,7 +132,9 @@ int b64_decode(const StringPiece& sp, ostream& os)
 	len *= 3;
 	len -= pad_len;
 
-	for (StringPiece::const_iterator it = sp.begin(); it != sp.end();)
+	for (StringPiece::const_iterator it = sp.begin(), ie = sp.end();
+		it != ie;
+		/**/)
 	{
 		if (!os.good())
 			return EIO;

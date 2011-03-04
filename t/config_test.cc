@@ -24,10 +24,10 @@ int main(int, char**)
 	else
 		printf("last_modified: nil\n");
 
-	for (const_sensors_iterator iter = config.sensors.begin();
-		iter != config.sensors.end();
-		++iter)
-		printf("sensor: %s : %s\n", iter->name.c_str(), iter->pat->pattern().c_str());
+	for (const_sensors_iterator it = config.sensors.begin(), ie = config.sensors.end();
+		it != ie;
+		++it)
+		printf("sensor: %s : %s\n", it->name.c_str(), it->pat->pattern().c_str());
 	return 0;
 out_error:
 	return 1;

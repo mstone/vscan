@@ -67,8 +67,9 @@ int main(int argc, char** argv)
 
 		did_match = false;
 
-		for (sensors_iterator sens = config.sensors.begin();
-			sens != config.sensors.end();
+		sensors_iterator sens, sens_end;
+		for (sens = config.sensors.begin(), sens_end = config.sensors.end();
+			sens != sens_end;
 			++sens)
 			sens->count = 0;
 
@@ -79,8 +80,8 @@ int main(int argc, char** argv)
 			if (did_match == false)
 				did_match = true;
 
-			for (sensors_iterator sens = config.sensors.begin();
-				sens != config.sensors.end();
+			for (sens = config.sensors.begin(), sens_end = config.sensors.end();
+				sens != sens_end;
 				++sens)
 			{
 				if (RE2::PartialMatch(capture, *sens->pat))

@@ -336,14 +336,15 @@ int FDTraversal::get_quoted_path(void* traversal_datum, string* qpath) const
 {
 	StringPiece* frag = reinterpret_cast<StringPiece*>(traversal_datum);
 	ostringstream oss;
-	list<struct path_dir_pair>::const_reverse_iterator iter;
-	for(iter = worklist_.rbegin();
-		iter != worklist_.rend();
-		++iter)
+	list<struct path_dir_pair>::const_reverse_iterator it, ie, first;
+	first = worklist_.rbegin();
+	for(it = worklist_.rbegin(), ie = worklist_.rend();
+		it != ie;
+		++it)
 	{
-		if (iter != worklist_.rbegin())
+		if (it != first)
 			oss << "/";
-		oss << uri_encode(iter->path);
+		oss << uri_encode(it->path);
 	}
 	oss << "/" << uri_encode(*frag);
 

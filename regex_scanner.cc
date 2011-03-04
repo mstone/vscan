@@ -39,8 +39,8 @@ int RegexScanner::scan_buf(Scannable* sc, StringPiece buf, void*)
 {
 	bool did_match = false;
 
-	for (sensors_iterator sens = sensors_->begin();
-		sens != sensors_->end();
+	for (sensors_iterator sens = sensors_->begin(), sens_end = sensors_->end();
+		sens != sens_end;
 		++sens)
 	{
 		sens->count = 0;
@@ -60,8 +60,8 @@ int RegexScanner::scan_buf(Scannable* sc, StringPiece buf, void*)
 			did_match = true;
 		}
 
-		for (sensors_iterator sens = sensors_->begin();
-			sens != sensors_->end();
+		for (sensors_iterator sens = sensors_->begin(), sens_end = sensors_->end();
+			sens != sens_end;
 			++sens)
 		{
 			if (RE2::PartialMatch(capture, *sens->pat))
