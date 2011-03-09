@@ -236,7 +236,9 @@ int FDTraversal::go_reg(int dfd,
 	if (fd == -1)
 	{
 		LET(fd = openat(dfd, di.d_name, O_RDONLY | O_NOFOLLOW), fd == -1,
-			"unable to open reg file", out_error);
+			"unable to open reg file", cleanup,
+			"Path: ^^ %d\n",
+			dbg_print_current_path("eopen-reg-file", di.d_name));
 		CHK(fstat(fd, &st2) == -1,
 			"unable to stat fd", out_error);
 		CHK(decider_->Decide(di, st2, &should_scan) != 0,
