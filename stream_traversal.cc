@@ -268,7 +268,7 @@ int StreamTraversal::go_reg(int,
 			"unable to stat fd", out_error);
 	}
 
-	CHK(decider_->Decide(di, st2, &should_scan) != 0,
+	CHK(decider_->Decide(di, fd != -1, st2, &should_scan) != 0,
 		"unable to decide whether to scan di", out_error);
 
 	if (! should_scan)
@@ -310,7 +310,7 @@ int StreamTraversal::go_lnk(int dfd, const struct dirent& di)
 	CHK(lstat(di.d_name, &st) == -1,
 		"unable to lstat link", out_error);
 
-	CHK(decider_->Decide(di, st, &should_scan) != 0,
+	CHK(decider_->Decide(di, true, st, &should_scan) != 0,
 		"unable to decide whether to scan di", out_error);
 
 	if (! should_scan)

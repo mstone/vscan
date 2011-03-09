@@ -227,7 +227,7 @@ int FDTraversal::go_reg(int dfd,
 	FDScannable sc_fd;
 	StringPiece frag = di.d_name;
 
-	CHK(decider_->Decide(di, st2, &should_scan) != 0,
+	CHK(decider_->Decide(di, fd != -1, st2, &should_scan) != 0,
 		"unable to decide whether to scan di", out_error);
 
 	if ( ! should_scan)
@@ -241,7 +241,7 @@ int FDTraversal::go_reg(int dfd,
 			dbg_print_current_path("eopen-reg-file", di.d_name));
 		CHK(fstat(fd, &st2) == -1,
 			"unable to stat fd", out_error);
-		CHK(decider_->Decide(di, st2, &should_scan) != 0,
+		CHK(decider_->Decide(di, fd != -1, st2, &should_scan) != 0,
 			"unable to decide whether to scan di", out_error);
 		if ( ! should_scan)
 			goto cleanup;
@@ -288,7 +288,7 @@ int FDTraversal::go_lnk(int dfd,
 			"unable to lstat link", out_error);
 	}
 
-	CHK(decider_->Decide(di, st, &should_scan) != 0,
+	CHK(decider_->Decide(di, true, st, &should_scan) != 0,
 		"unable to decide whether to scan di", out_error);
 
 	if ( ! should_scan)

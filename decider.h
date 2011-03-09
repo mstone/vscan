@@ -8,6 +8,7 @@ public:
 		const time_t* last_modified) WARN_RET;
 
 	int Decide(const struct dirent& di,
+		bool has_st,
 		const struct stat& st,
 		bool* should_scan) const WARN_RET;
 private:

@@ -16,6 +16,7 @@ int Decider::Init(const RE2* pat_decider, const time_t* last_modified)
 }
 
 int Decider::Decide(const struct dirent& di,
+	bool has_st,
 	const struct stat& st,
 	bool* should_scan) const
 {
@@ -24,7 +25,7 @@ int Decider::Decide(const struct dirent& di,
 		decision &= (st.st_mtime > *last_modified_);
 	if (decision && pat_decider_ != NULL)
 		decision &= RE2::FullMatch(di.d_name, *pat_decider_);
-	if (decision)
+	if (decision && has_st)
 		decision &= (st.st_size > 0);
 	*should_scan = decision;
 	return 0;
