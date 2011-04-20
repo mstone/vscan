@@ -112,7 +112,7 @@ stream_traversal.o_DEPS = libc libre2
 summarize.o_DEPS = libc libre2 libsqlite3
 tarball_scannable.o_DEPS = libc libarchive libz libre2
 tarball_scanner.o_DEPS = libc libarchive libz libre2
-tarball_traversal.o_DEPS = libc libre2
+tarball_traversal.o_DEPS = libc libarchive libz libre2
 traversal.o_DEPS = libc libre2
 
 t/b64_test.o_DEPS = libc libre2
